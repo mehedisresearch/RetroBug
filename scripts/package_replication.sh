@@ -33,8 +33,7 @@ rsync -a \
   --exclude='ablation/' \
   --exclude='run_ablation.py' \
   --exclude='summarize_ablation.py' \
-  --exclude='paper_tables/ablation_results.tex' \
-  --exclude='paper_tables/ablation_design.tex' \
+  --exclude='paper_tables/' \
   "${ROOT}/agentic_experiment/" "${STAGE}/agentic_experiment/"
 
 # --- source datasets ---
@@ -60,7 +59,7 @@ Entry point: agentic_experiment/README.md
 Git guide:    REPLICATION.md
 
 Included:
-  agentic_experiment/     main code + precomputed results + paper_tables (RQ1–3)
+  agentic_experiment/     main code + precomputed results
   bugfix_pipeline/data/   source CSV datasets (798 commits)
   claude_message_experiment/  shared LLM prompt + parser
 EOF

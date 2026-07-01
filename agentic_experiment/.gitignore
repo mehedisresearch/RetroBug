@@ -8,6 +8,7 @@ run_ablation.py
 summarize_ablation.py
 paper_tables/ablation_results.tex
 paper_tables/ablation_design.tex
+paper_tables/
 
 # Extra experiments / logs — not needed for RQ1–RQ3 replication
 data/model_comparison/

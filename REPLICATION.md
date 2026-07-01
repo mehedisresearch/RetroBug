@@ -24,7 +24,6 @@ BugFix/
 │   │       ├── keyword, tfidf_message_*, hybrid_features_*, knn_retrieval/  (RQ1, 5-fold)
 │   │       ├── claude_message_diff, gpt4o_message_diff, codellama_message_diff/  (RQ2, fold 0)
 │   │       └── baselines_comparison.txt
-│   └── paper_tables/                  ← RQ1–RQ3 tables + baselines description
 ├── bugfix_pipeline/data/*.csv
 └── claude_message_experiment/{prompts,parse_response}.py
 ```
@@ -39,7 +38,7 @@ BugFix/
 | `data/baselines/tfidf_message_diff_*` | Not in RQ1 paper table |
 | `data/*_run.log`, `token_usage.log` | Run logs |
 | `*.joblib` | KB caches (rebuilt on first run) |
-| `paper_tables/discussion.tex`, etc. | Paper prose, not needed to verify numbers |
+| `paper_tables/` | LaTeX paper tables (local only) |
 | `.env` | API keys |
 
 ## Push to GitHub

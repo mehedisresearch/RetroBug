@@ -77,13 +77,6 @@ BugFix/
 │   │   ├── fold_{0..4}/         ← RetroBug per-fold outputs
 │   │   ├── baselines/           ← baseline per-fold outputs
 │   │   └── cross_fold_summary.txt
-│   └── paper_tables/            ← LaTeX tables and results prose
-│       ├── rq1_results.tex
-│       ├── rq2_results.tex
-│       ├── rq3_results.tex
-│       ├── baselines.tex
-│       ├── confusion_matrix.tex
-│       └── generate_per_fold_tables.py
 │
 ├── bugfix_pipeline/data/        ← SOURCE DATA (required)
 │   ├── dataset1_100fix_300nonfix.csv
@@ -324,32 +317,17 @@ data/baselines/<baseline_name>/fold_{0..4}/
 
 ---
 
-## Reproducing Paper Tables
+## Verifying Paper Numbers
 
-Pre-generated LaTeX is in `paper_tables/`:
-
-| File | Content |
-|------|---------|
-| `rq1_results.tex` | RQ1: RetroBug vs. classical baselines |
-| `rq1_results_text.tex` | RQ1 results prose + summary box |
-| `rq2_results.tex` | RQ2: RetroBug vs. zero-shot LLMs (fold 0) |
-| `rq2_results_text.tex` | RQ2 results prose + summary box |
-| `rq3_results.tex` | RQ3: cross-fold per-class stability |
-| `rq3_results_text.tex` | RQ3 results prose + summary box |
-| `confusion_matrix.tex` | Aggregate confusion matrix (n=798) |
-| `baselines.tex` | Baseline descriptions |
-| `evaluation_metrics.tex` | Metric definitions |
-| `prompt_templates.tex` | Agent system + user prompts |
-
-Regenerate per-fold comparison tables from cached metrics:
+Recompute metrics from the bundled predictions (no API calls):
 
 ```bash
-python3 paper_tables/generate_per_fold_tables.py
-# reads  paper_tables/per_fold_metrics.json
-# writes paper_tables/full_per_class_per_fold.{tex,md}
+python3 run_experiment.py --metrics-only    # RetroBug 5-fold + RQ3 summary
+python3 summarize_baselines.py              # RQ1 classical + RQ2 LLM comparison
 ```
 
-To regenerate `per_fold_metrics.json` from raw predictions, re-run all baselines and agent, then update the JSON manually or via a custom script.
+Expected RetroBug pooled BF F1 ≈ 0.778; see `data/cross_fold_summary.txt` and
+`data/baselines/baselines_comparison.txt`.
 
 ---
 
