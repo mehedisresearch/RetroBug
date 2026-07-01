@@ -2,23 +2,20 @@
 
 Replication artifact for **RetroBug** — an agentic backward case-based reasoning (CBR) system for binary bug-fix commit classification (Bug-Fix vs. Non-Bug-Fix).
 
-This package contains experiment code, evaluation scripts, and precomputed results for **RQ1–RQ3**. All methods use the same **5-fold stratified cross-validation** protocol on **798 commits** (seed=42).
+This package contains experiment code, evaluation scripts, and precomputed results for **RQ1–RQ3**. All methods use the same **5-fold stratified cross-validation** protocol on **800 commits** (seed=42).
 
 ---
 
 ## Research Questions
 
-**RQ1: How effective is RetroBug compared with non-agentic baselines for bug-fix commit classification?**
+**RQ1. How effective is RetroBug compared with non-agentic baselines for bug-fix commit classification?**  
+We compare RetroBug against heuristic, classical ML, and retrieval-only baselines (keyword, TF-IDF, hybrid features, kNN) using full 5-fold CV on **800 commits**.
 
-We evaluate whether RetroBug improves bug-fix commit classification over heuristic, classical machine learning, and retrieval-based methods (keyword, TF-IDF, hybrid features, kNN retrieval). Evaluation uses full 5-fold CV (n=798).
+**RQ2. Does the RetroBug agentic pipeline improve classification over Forward CBR under the same retrieval setup?**  
+We compare RetroBug to a Forward CBR baseline that uses the same top-1 KB retrieval and same Claude model, but a single-turn prompt: *"Given this reference, classify the target."* This isolates the benefit of the RetroBug pipeline (backward CBR + tools + iterative loop).
 
-**RQ2: Does the RetroBug agentic pipeline improve classification over Forward Case-Based Reasoning (Forward CBR)?**
-
-We compare RetroBug with a **Forward CBR** baseline using the **same retrieval setting** (top-1 KB neighbor) and the **same language model** (Claude Sonnet), but with a single-turn prompt: *“Given this reference, classify the target.”* RetroBug adds backward CBR, analysis tools, and a multi-step agent loop. RQ2 is evaluated on **fold 0** (n=160); re-run or extend with `run_cbr_comparison.py`.
-
-**RQ3: How stable is RetroBug across cross-validation folds?**
-
-We evaluate whether RetroBug performs consistently across data splits and maintains balanced performance on both Bug-Fix and Non-Bug-Fix commits (5-fold per-class metrics).
+**RQ3. How stable is RetroBug across cross-validation folds?**  
+We measure fold-to-fold consistency and class balance (Bug-Fix vs Non-Bug-Fix) across all 5 folds.
 
 > **Discussion (not an RQ):** Comparison with zero-shot LLM baselines (Claude, GPT-4o, CodeLlama) is reported in the Discussion section. Precomputed LLM baseline outputs for fold 0 remain in `data/baselines/` for verification.
 
@@ -90,7 +87,7 @@ python3 run_experiment.py --metrics-only   # → data/cross_fold_summary.txt
 
 ## Key Results
 
-### RQ1 — RetroBug vs non-agentic baselines (5-fold, n=798)
+### RQ1 — RetroBug vs non-agentic baselines (5-fold, n=800)
 
 | Method | BF F1 | Acc. | MCC |
 |--------|-------|------|-----|
