@@ -38,8 +38,7 @@ This package contains the full experiment code, evaluation scripts, precomputed 
 - **RQ3:** Cross-fold stability and per-class balance (RetroBug only)
 
 > **Note:** An ablation study (component analysis) is maintained separately and is
-> **not included** in this replication package. See `../REPLICATION.md` for packaging
-> details.
+> **not included** in this replication package.
 
 ---
 

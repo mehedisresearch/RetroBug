@@ -46,17 +46,13 @@ mkdir -p "${STAGE}/claude_message_experiment"
 cp "${ROOT}/claude_message_experiment/prompts.py" "${STAGE}/claude_message_experiment/"
 cp "${ROOT}/claude_message_experiment/parse_response.py" "${STAGE}/claude_message_experiment/"
 
-# --- top-level guide ---
-cp "${ROOT}/REPLICATION.md" "${STAGE}/"
-
 # --- manifest ---
 cat > "${STAGE}/MANIFEST.txt" <<EOF
 RetroBug replication package (${STAMP})
 Scope: RQ1 (classical baselines), RQ2 (LLM baselines), RQ3 (cross-fold stability)
-Excluded: ablation study code, data/ablation/, ablation LaTeX tables
+Excluded: ablation study code, data/ablation/, paper_tables/
 
 Entry point: agentic_experiment/README.md
-Git guide:    REPLICATION.md
 
 Included:
   agentic_experiment/     main code + precomputed results
