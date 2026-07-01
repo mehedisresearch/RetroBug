@@ -1,0 +1,35 @@
+# Secrets — never commit
+.env
+
+# Ablation study — not part of the replication package (RQ1–RQ3 only)
+data/ablation/
+ablation/
+run_ablation.py
+summarize_ablation.py
+paper_tables/ablation_results.tex
+paper_tables/ablation_design.tex
+
+# Extra experiments / logs — not needed for RQ1–RQ3 replication
+data/model_comparison/
+data/*_run.log
+data/fold_*/token_usage.log
+data/baselines/*.log
+analyze_model_comparison.py
+run_model_comparison.py
+*.joblib
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+*.joblib

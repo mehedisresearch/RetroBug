@@ -1,0 +1,26 @@
+============================================================
+  Baseline: codellama_message_diff — Fold 0  (n=160)
+============================================================
+
+  Coverage   : 99.4%  (159 valid / 1 errors)
+
+  Confusion Matrix (rows=actual, cols=predicted):
+                    Pred Bug-Fix  Pred Non-Bug
+  Actual Bug-Fix          25            15
+  Actual Non-Bug          51            68
+
+  Precision : 0.3289
+  Recall    : 0.6250
+  F1        : 0.4310
+  MCC       : 0.1706
+  Accuracy  : 0.5849
+
+  Agent Efficiency:
+    Avg Steps/Commit   : 0.0
+    Avg Tool Calls     : 0.0
+    Avg Latency        : 4.7s
+    Avg Tokens/Commit  : 0
+    Total Input Tokens : 0
+    Total Output Tokens: 0
+    Total Tokens       : 0
+    Avg Confidence     : 91.7

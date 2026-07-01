@@ -1,0 +1,26 @@
+============================================================
+  Baseline: hybrid_features_lr — Fold 1  (n=160)
+============================================================
+
+  Coverage   : 100.0%  (160 valid / 0 errors)
+
+  Confusion Matrix (rows=actual, cols=predicted):
+                    Pred Bug-Fix  Pred Non-Bug
+  Actual Bug-Fix          27            13
+  Actual Non-Bug          57            63
+
+  Precision : 0.3214
+  Recall    : 0.6750
+  F1        : 0.4355
+  MCC       : 0.1734
+  Accuracy  : 0.5625
+
+  Agent Efficiency:
+    Avg Steps/Commit   : 0.0
+    Avg Tool Calls     : 0.0
+    Avg Latency        : 0.0s
+    Avg Tokens/Commit  : 0
+    Total Input Tokens : 0
+    Total Output Tokens: 0
+    Total Tokens       : 0
+    Avg Confidence     : 63.6

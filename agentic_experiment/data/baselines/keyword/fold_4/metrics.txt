@@ -1,0 +1,26 @@
+============================================================
+  Baseline: keyword — Fold 4  (n=159)
+============================================================
+
+  Coverage   : 100.0%  (159 valid / 0 errors)
+
+  Confusion Matrix (rows=actual, cols=predicted):
+                    Pred Bug-Fix  Pred Non-Bug
+  Actual Bug-Fix           8            32
+  Actual Non-Bug          13           106
+
+  Precision : 0.3810
+  Recall    : 0.2000
+  F1        : 0.2623
+  MCC       : 0.1163
+  Accuracy  : 0.7170
+
+  Agent Efficiency:
+    Avg Steps/Commit   : 0.0
+    Avg Tool Calls     : 0.0
+    Avg Latency        : 0.0s
+    Avg Tokens/Commit  : 0
+    Total Input Tokens : 0
+    Total Output Tokens: 0
+    Total Tokens       : 0
+    Avg Confidence     : 71.3

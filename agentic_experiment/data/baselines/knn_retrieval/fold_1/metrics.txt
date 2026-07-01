@@ -1,0 +1,26 @@
+============================================================
+  Baseline: knn_retrieval — Fold 1  (n=160)
+============================================================
+
+  Coverage   : 100.0%  (160 valid / 0 errors)
+
+  Confusion Matrix (rows=actual, cols=predicted):
+                    Pred Bug-Fix  Pred Non-Bug
+  Actual Bug-Fix          17            23
+  Actual Non-Bug          13           107
+
+  Precision : 0.5667
+  Recall    : 0.4250
+  F1        : 0.4857
+  MCC       : 0.3513
+  Accuracy  : 0.7750
+
+  Agent Efficiency:
+    Avg Steps/Commit   : 0.0
+    Avg Tool Calls     : 0.0
+    Avg Latency        : 0.0s
+    Avg Tokens/Commit  : 0
+    Total Input Tokens : 0
+    Total Output Tokens: 0
+    Total Tokens       : 0
+    Avg Confidence     : 61.2

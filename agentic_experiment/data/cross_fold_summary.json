@@ -1,0 +1,74 @@
+{
+  "n_folds": 5,
+  "precision": {
+    "mean": 0.6858,
+    "std": 0.0459,
+    "min": 0.614,
+    "max": 0.7333
+  },
+  "recall": {
+    "mean": 0.9045,
+    "std": 0.0485,
+    "min": 0.825,
+    "max": 0.975
+  },
+  "f1": {
+    "mean": 0.778,
+    "std": 0.0267,
+    "min": 0.7291,
+    "max": 0.8043
+  },
+  "mcc": {
+    "mean": 0.705,
+    "std": 0.0352,
+    "min": 0.6407,
+    "max": 0.7396
+  },
+  "accuracy": {
+    "mean": 0.8709,
+    "std": 0.0196,
+    "min": 0.8365,
+    "max": 0.8875
+  },
+  "avg_confidence": {
+    "mean": 86.7,
+    "std": 0.5292,
+    "min": 86.0,
+    "max": 87.4
+  },
+  "avg_steps": {
+    "mean": 3.858,
+    "std": 0.0232,
+    "min": 3.83,
+    "max": 3.89
+  },
+  "avg_tool_calls": {
+    "mean": 6.546,
+    "std": 0.0589,
+    "min": 6.47,
+    "max": 6.62
+  },
+  "avg_latency_s": {
+    "mean": 24.334,
+    "std": 0.1443,
+    "min": 24.09,
+    "max": 24.53
+  },
+  "avg_tokens": {
+    "mean": 13482.2,
+    "std": 293.3267,
+    "min": 13011.0,
+    "max": 13822.0
+  },
+  "aggregate_confusion": {
+    "tp": 180,
+    "fp": 84,
+    "tn": 515,
+    "fn": 19
+  },
+  "aggregate_precision": 0.6818,
+  "aggregate_recall": 0.9045,
+  "aggregate_f1": 0.7775,
+  "aggregate_mcc": 0.7028,
+  "aggregate_accuracy": 0.8709
+}

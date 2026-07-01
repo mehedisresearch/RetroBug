@@ -1,0 +1,45 @@
+% Evaluation metrics (short section for paper)
+% Usage: \input{paper_tables/evaluation_metrics.tex}
+
+\subsection{Evaluation Metrics}
+\label{sec:evaluation-metrics}
+
+We evaluate all methods on a binary classification task:
+Bug-Fix (minority class) versus Non-Bug-Fix.
+Predictions are compared against human-annotated labels using
+standard per-class and aggregate metrics derived from the
+confusion matrix (true positives~TP, true negatives~TN,
+false positives~FP, false negatives~FN).
+
+For each class $c \in \{\text{Non-Bug-Fix}, \text{Bug-Fix}\}$, we
+report \emph{precision} ($\mathrm{TP}_c / (\mathrm{TP}_c + \mathrm{FP}_c)$),
+\emph{recall} ($\mathrm{TP}_c / (\mathrm{TP}_c + \mathrm{FN}_c)$), and
+\emph{F1} (harmonic mean of precision and recall).
+We additionally report \emph{accuracy}
+($(\mathrm{TP} + \mathrm{TN}) / N$) and the
+\emph{Matthews Correlation Coefficient} (MCC)~\cite{matthews1975comparison}:
+\[
+  \mathrm{MCC} =
+  \frac{\mathrm{TP}\cdot\mathrm{TN} - \mathrm{FP}\cdot\mathrm{FN}}
+       {\sqrt{(\mathrm{TP}+\mathrm{FP})(\mathrm{TP}+\mathrm{FN})
+              (\mathrm{TN}+\mathrm{FP})(\mathrm{TN}+\mathrm{FN})}}.
+\]
+
+Because the dataset is imbalanced (599 Non-Bug-Fix vs.\ 199 Bug-Fix
+commits), accuracy alone can be misleading: a classifier that predicts
+Non-Bug-Fix for nearly every commit achieves high accuracy while failing
+on the minority class.
+We therefore treat \textbf{Bug-Fix F1} as the primary outcome metric,
+as it reflects performance on the class of greatest practical interest,
+and \textbf{MCC} as the primary aggregate metric, as it accounts for all
+four confusion-matrix cells under class imbalance.
+Non-Bug-Fix F1 is reported to assess whether improved Bug-Fix detection
+comes at the cost of majority-class performance.
+
+All methods are evaluated under 5-fold stratified cross-validation on
+798 commits.
+Unless stated otherwise, per-class metrics in
+Tables~\ref{tab:rq1}--\ref{tab:confusion} pool predictions across all
+folds before computing precision, recall, and F1.
+Cross-fold stability (Table~\ref{tab:rq3-retrobug}) reports fold-wise
+metrics with mean~$\pm$~standard deviation across the five splits.

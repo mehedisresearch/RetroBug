@@ -1,0 +1,80 @@
+% RQ1 results + RetroBug confusion matrix (double-column / full-width)
+% Requires: \usepackage{booktabs}
+% For two-column papers: use \begin{table*} ... \end{table*}
+% Usage: \input{paper_tables/rq1_results.tex}
+
+\begin{table*}[t]
+\centering
+\scriptsize
+\caption{RQ1: Classification results for RetroBug versus classical
+baselines ($n=798$, 5-fold stratified CV), with aggregate confusion
+matrix for RetroBug (left).
+NB~=~Non-Bug-Fix, BF~=~Bug-Fix.
+Best per column in \textbf{bold}.}
+\label{tab:rq1}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.9}
+
+% --- Left: confusion matrix ---
+\begin{minipage}[t]{0.31\textwidth}
+\centering
+\textbf{(a) RetroBug confusion matrix}\\[2pt]
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+& \textbf{Pred.\ NB} & \textbf{Pred.\ BF} & \textbf{Tot.} \\
+\midrule
+\textbf{Act.\ NB} & TN=515 & FP=84  & 599 \\
+\textbf{Act.\ BF} & FN=19  & TP=180 & 199 \\
+\textbf{Total}    & 534    & 264    & 798 \\
+\midrule
+\multicolumn{4}{@{}p{0.95\linewidth}@{}}{\textbf{Prec.}=0.682\;
+\textbf{Rec.}=0.905\; \textbf{F1}=0.778} \\
+\multicolumn{4}{@{}p{0.95\linewidth}@{}}{\textbf{Acc.}=87.1\%\;
+\textbf{MCC}=0.703\; FP=14.0\%\; FN=9.5\%} \\
+\bottomrule
+\end{tabular}
+\label{tab:confusion}
+\end{minipage}
+\hfill
+% --- Right: RQ1 per-class table ---
+\begin{minipage}[t]{0.67\textwidth}
+\centering
+\textbf{(b) Per-class results}\\[2pt]
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}l ccc ccc cc@{}}
+\toprule
+ & \multicolumn{3}{c}{\textbf{Non-Bug-Fix (NB)}} & \multicolumn{3}{c}{\textbf{Bug-Fix (BF)}} & & \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7}
+\textbf{Method} & \textbf{Prec.} & \textbf{Rec.} & \textbf{F1} & \textbf{Prec.} & \textbf{Rec.} & \textbf{F1} & \textbf{Acc.} & \textbf{MCC} \\
+\midrule
+Keyword heuristic
+  & 0.764 & \textbf{0.873} & 0.815 & 0.327 & 0.186 & 0.237 & 0.702 & 0.073 \\
+\midrule
+\multicolumn{9}{@{}l}{\textit{TF-IDF --- masked message only}} \\
+\quad TF-IDF + LR
+  & 0.838 & 0.796 & 0.817 & 0.467 & 0.538 & 0.500 & 0.732 & 0.319 \\
+\quad TF-IDF + RF
+  & 0.802 & 0.870 & 0.834 & 0.473 & 0.352 & 0.403 & 0.741 & 0.247 \\
+\quad TF-IDF + XGB
+  & 0.806 & 0.818 & 0.812 & 0.426 & 0.407 & 0.416 & 0.716 & 0.229 \\
+\midrule
+\multicolumn{9}{@{}l}{\textit{Hybrid hand-crafted features}} \\
+\quad Hybrid + LR
+  & 0.844 & 0.496 & 0.625 & 0.323 & 0.724 & 0.447 & 0.553 & 0.191 \\
+\quad Hybrid + RF
+  & 0.781 & 0.858 & 0.818 & 0.393 & 0.276 & 0.324 & 0.713 & 0.153 \\
+\quad Hybrid + XGB
+  & 0.789 & 0.788 & 0.789 & 0.365 & 0.367 & 0.366 & 0.683 & 0.155 \\
+\midrule
+$k$NN retrieval
+  & 0.807 & 0.865 & 0.835 & 0.481 & 0.377 & 0.423 & 0.743 & 0.264 \\
+\midrule
+\textbf{RetroBug (ours)}
+  & \textbf{0.964} & 0.860 & \textbf{0.909} & \textbf{0.682} & \textbf{0.905} & \textbf{0.778} & \textbf{0.871} & \textbf{0.703} \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+
+\vspace{-5pt}
+\end{table*}

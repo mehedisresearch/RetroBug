@@ -1,0 +1,26 @@
+============================================================
+  Baseline: gpt4o_message_diff — Fold 0  (n=160)
+============================================================
+
+  Coverage   : 100.0%  (160 valid / 0 errors)
+
+  Confusion Matrix (rows=actual, cols=predicted):
+                    Pred Bug-Fix  Pred Non-Bug
+  Actual Bug-Fix          28            12
+  Actual Non-Bug          21            99
+
+  Precision : 0.5714
+  Recall    : 0.7000
+  F1        : 0.6292
+  MCC       : 0.4932
+  Accuracy  : 0.7937
+
+  Agent Efficiency:
+    Avg Steps/Commit   : 0.0
+    Avg Tool Calls     : 0.0
+    Avg Latency        : 2.4s
+    Avg Tokens/Commit  : 1419
+    Total Input Tokens : 212,532
+    Total Output Tokens: 14,486
+    Total Tokens       : 227,018
+    Avg Confidence     : 89.0

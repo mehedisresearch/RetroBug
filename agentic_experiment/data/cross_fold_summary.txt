@@ -1,0 +1,24 @@
+============================================================
+  CROSS-FOLD SUMMARY (5 folds)
+============================================================
+
+  precision   : 0.6858 ± 0.0459  (min=0.6140, max=0.7333)
+  recall      : 0.9045 ± 0.0485  (min=0.8250, max=0.9750)
+  f1          : 0.7780 ± 0.0267  (min=0.7291, max=0.8043)
+  mcc         : 0.7050 ± 0.0352  (min=0.6407, max=0.7396)
+  accuracy    : 0.8709 ± 0.0196  (min=0.8365, max=0.8875)
+
+  Agent Efficiency (mean ± std):
+    avg_steps           : 3.86 ± 0.02
+    avg_tool_calls      : 6.55 ± 0.06
+    avg_latency_s       : 24.33 ± 0.14
+    avg_tokens          : 13482.20 ± 293.33
+
+  Aggregate Confusion Matrix:
+                    Pred Bug-Fix  Pred Non-Bug
+  Actual Bug-Fix         180            19
+  Actual Non-Bug          84           515
+
+  Aggregate F1  : 0.7775
+  Aggregate MCC : 0.7028
+  Aggregate Acc : 0.8709

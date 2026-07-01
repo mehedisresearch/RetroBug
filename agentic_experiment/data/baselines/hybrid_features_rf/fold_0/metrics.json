@@ -1,0 +1,25 @@
+{
+  "n_total": 160,
+  "n_valid": 160,
+  "n_errors": 0,
+  "coverage": 1.0,
+  "confusion": {
+    "tp": 12,
+    "fp": 17,
+    "tn": 103,
+    "fn": 28
+  },
+  "precision": 0.4138,
+  "recall": 0.3,
+  "f1": 0.3478,
+  "mcc": 0.178,
+  "accuracy": 0.7188,
+  "avg_confidence": 72.2,
+  "avg_steps": 0.0,
+  "avg_tool_calls": 0.0,
+  "avg_latency_s": 0.09,
+  "avg_tokens": 0.0,
+  "total_input_tokens": 0,
+  "total_output_tokens": 0,
+  "total_tokens": 0
+}

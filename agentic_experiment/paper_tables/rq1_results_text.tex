@@ -1,0 +1,80 @@
+% RQ1 — Results subsection (prose + summary box)
+% Requires: \usepackage{tcolorbox}
+% Usage: \input{paper_tables/rq1_results_text.tex}
+%         (table included via \input{paper_tables/rq1_results.tex} below)
+
+\subsection{RQ1: RetroBug vs.\ Classical Baselines}
+\label{sec:results:rq1}
+% --------------------------------------------------------------
+
+Table~\ref{tab:rq1} reports per-class precision, recall, F1, accuracy,
+and MCC for all methods aggregated over 798 commits across five folds.
+We compare RetroBug against three families of classical baselines:
+a keyword heuristic, TF-IDF classifiers trained on masked commit
+messages, hybrid models using nine hand-crafted diff and message
+features, and a $k$NN retrieval baseline that transfers labels from
+the nearest training commit in embedding space.
+
+RetroBug achieves Bug-Fix F1~=~0.778 and MCC~=~0.703, outperforming
+the best classical baseline---TF-IDF + LR on commit messages---by
+27.8 Bug-Fix F1 points and 0.383 MCC points.
+The improvement is driven primarily by recall: RetroBug recovers
+90.5\% of all bug-fix commits compared with 53.8\% for TF-IDF + LR,
+while also achieving higher Bug-Fix precision (0.682 vs.\ 0.467).
+On the majority class, RetroBug maintains strong Non-Bug-Fix
+performance (F1~=~0.909, precision~=~0.964), indicating that higher
+bug-fix recall does not come at the cost of widespread non-bug
+misclassification.
+
+The MCC gap is the most informative single comparison.
+TF-IDF + LR (message) achieves accuracy of 0.732 and Non-Bug-Fix F1
+of 0.817, which appear reasonable in isolation, but its MCC of 0.319
+reveals weak minority-class discrimination: the model misses more
+than half of all bug-fixing commits.
+Replacing LR with RF or XGB on the same TF-IDF features does not
+close this gap---the best TF-IDF variant remains LR (Bug-Fix
+F1~=~0.500), while RF and XGB reach only 0.403 and 0.416
+respectively---confirming that the limitation is feature
+expressiveness rather than classifier choice.
+
+Hybrid-feature models expose a different failure mode.
+Hybrid + LR achieves the highest Bug-Fix recall among classical
+methods (0.724) by aggressively predicting Bug-Fix, but its Bug-Fix
+precision collapses to 0.323 and overall accuracy falls to 0.553.
+Hybrid + RF and Hybrid + XGB recover Non-Bug-Fix F1 ($\approx$0.79)
+but sacrifice Bug-Fix recall (0.276--0.367), yielding Bug-Fix F1
+scores below 0.37.
+These results show that hand-crafted features alone cannot balance
+precision and recall on this task.
+
+$k$NN retrieval uses the same embedding model as RetroBug but applies
+forward label transfer without backward reasoning or tool use.
+It achieves MCC~=~0.264 and Bug-Fix F1~=~0.423---0.439 MCC points
+and 35.5 F1 points below RetroBug---directly quantifying the gain of
+agentic backward CBR over similarity-based label transfer.
+Although $k$NN attains the second-highest Non-Bug-Fix F1 (0.835),
+its Bug-Fix recall of 0.377 indicates that nearest-neighbor label
+propagation misses nearly two-thirds of true bug-fix commits.
+
+The keyword heuristic achieves the highest Non-Bug-Fix recall
+(0.873) by classifying almost everything as Non-Bug-Fix, but its
+Bug-Fix recall of 0.186 and MCC of 0.073 confirm that it is barely
+better than random on the minority class.
+Across all baselines, RetroBug is the only method that simultaneously
+leads in Bug-Fix F1, Non-Bug-Fix F1, accuracy, and MCC.
+All differences between RetroBug and baselines are statistically
+significant ($p < 0.01$, Cohen's $d > 0.8$).
+
+\input{paper_tables/rq1_results.tex}
+
+\begin{tcolorbox}[colback=gray!8, colframe=gray!50,
+  boxrule=0.5pt, arc=2pt, left=4pt, right=4pt,
+  top=3pt, bottom=3pt]
+\textbf{Answer to RQ1:}
+RetroBug achieves Bug-Fix F1 of 0.778 ($\pm$0.027 across folds),
+outperforming the best classical baseline (TF-IDF + LR, F1~=~0.500)
+by 27.8 points, with recall rising from 0.538 to 0.905.
+Compared to $k$NN retrieval (F1~=~0.423), RetroBug improves by 35.5
+points, indicating that backward reasoning and tool use add value
+beyond similarity-based label transfer.
+\end{tcolorbox}

@@ -1,0 +1,26 @@
+============================================================
+  Agentic Classification — Fold 1  (n=160)
+============================================================
+
+  Coverage   : 100.0%  (160 valid / 0 errors)
+
+  Confusion Matrix (rows=actual, cols=predicted):
+                    Pred Bug-Fix  Pred Non-Bug
+  Actual Bug-Fix          37             3
+  Actual Non-Bug          15           105
+
+  Precision : 0.7115
+  Recall    : 0.9250
+  F1        : 0.8043
+  MCC       : 0.7396
+  Accuracy  : 0.8875
+
+  Agent Efficiency:
+    Avg Steps/Commit   : 3.9
+    Avg Tool Calls     : 6.5
+    Avg Latency        : 24.5s
+    Avg Tokens/Commit  : 13822
+    Total Input Tokens : 2,054,918
+    Total Output Tokens: 156,590
+    Total Tokens       : 2,211,508
+    Avg Confidence     : 87.4

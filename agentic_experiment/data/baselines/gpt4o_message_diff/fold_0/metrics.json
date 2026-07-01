@@ -1,0 +1,25 @@
+{
+  "n_total": 160,
+  "n_valid": 160,
+  "n_errors": 0,
+  "coverage": 1.0,
+  "confusion": {
+    "tp": 28,
+    "fp": 21,
+    "tn": 99,
+    "fn": 12
+  },
+  "precision": 0.5714,
+  "recall": 0.7,
+  "f1": 0.6292,
+  "mcc": 0.4932,
+  "accuracy": 0.7937,
+  "avg_confidence": 89.0,
+  "avg_steps": 0.0,
+  "avg_tool_calls": 0.0,
+  "avg_latency_s": 2.38,
+  "avg_tokens": 1419.0,
+  "total_input_tokens": 212532,
+  "total_output_tokens": 14486,
+  "total_tokens": 227018
+}

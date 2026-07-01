@@ -1,0 +1,216 @@
+==========================================================================================
+  BASELINE COMPARISON vs AGENTIC CBR (same 5-fold CV, n=798)
+==========================================================================================
+
+Method                       F1 mean±std      Acc      Prec     Rec      n     
+------------------------------------------------------------------------------------------
+Agentic CBR (Claude)         0.7780±0.0267  0.8709   0.6818   0.9045   798
+keyword                      0.2379±0.0470  0.7018   0.3274   0.1859   798
+tfidf message lr             0.4999±0.0503  0.7318   0.4672   0.5377   798
+tfidf message rf             0.4033±0.0434  0.7406   0.4730   0.3518   798
+tfidf message xgb            0.4149±0.0502  0.7155   0.4263   0.4070   798
+tfidf message diff lr        0.4891±0.0552  0.7268   0.4581   0.5226   798
+tfidf message diff rf        0.4292±0.0737  0.7744   0.5812   0.3417   798
+tfidf message diff xgb       0.4437±0.0618  0.7556   0.5132   0.3920   798
+hybrid features lr           0.4464±0.0551  0.5526   0.3229   0.7236   798
+hybrid features rf           0.3203±0.0650  0.7130   0.3929   0.2764   798
+hybrid features xgb          0.3637±0.0278  0.6830   0.3650   0.3668   798
+knn retrieval                0.4203±0.0651  0.7431   0.4808   0.3769   798
+claude message               0.5844±0.0277  0.7910   0.5926   0.5647   335
+claude message diff          0.5981±0.0000  0.7312   0.4776   0.8000   160
+gpt4o message diff           0.6292±0.0000  0.7937   0.5714   0.7000   160
+codellama message diff       0.4310±0.0000  0.5849   0.3289   0.6250   160
+
+==========================================================================================
+  PER-CLASS REPORTS (aggregate over all folds)
+==========================================================================================
+
+--- Agentic CBR (Claude) ---
+              precision    recall  f1-score   support
+
+ Non-Bug-Fix     0.9644    0.8598    0.9091       599
+     Bug-Fix     0.6818    0.9045    0.7775       199
+
+    accuracy                         0.8709       798
+   macro avg     0.8231    0.8821    0.8433       798
+weighted avg     0.8939    0.8709    0.8763       798
+
+
+--- keyword ---
+Confusion: TP=37 FN=162 FP=76 TN=523
+              precision    recall  f1-score   support
+
+ Non-Bug-Fix     0.7635    0.8731    0.8146       599
+     Bug-Fix     0.3274    0.1859    0.2372       199
+
+    accuracy                         0.7018       798
+   macro avg     0.5455    0.5295    0.5259       798
+weighted avg     0.6548    0.7018    0.6706       798
+
+
+--- tfidf_message_lr ---
+Confusion: TP=107 FN=92 FP=122 TN=477
+              precision    recall  f1-score   support
+
+ Non-Bug-Fix     0.8383    0.7963    0.8168       599
+     Bug-Fix     0.4672    0.5377    0.5000       199
+
+    accuracy                         0.7318       798
+   macro avg     0.6528    0.6670    0.6584       798
+weighted avg     0.7458    0.7318    0.7378       798
+
+
+--- tfidf_message_rf ---
+Confusion: TP=70 FN=129 FP=78 TN=521
+              precision    recall  f1-score   support
+
+ Non-Bug-Fix     0.8015    0.8698    0.8343       599
+     Bug-Fix     0.4730    0.3518    0.4035       199
+
+    accuracy                         0.7406       798
+   macro avg     0.6373    0.6108    0.6189       798
+weighted avg     0.7196    0.7406    0.7268       798
+
+
+--- tfidf_message_xgb ---
+Confusion: TP=81 FN=118 FP=109 TN=490
+              precision    recall  f1-score   support
+
+ Non-Bug-Fix     0.8059    0.8180    0.8119       599
+     Bug-Fix     0.4263    0.4070    0.4165       199
+
+    accuracy                         0.7155       798
+   macro avg     0.6161    0.6125    0.6142       798
+weighted avg     0.7113    0.7155    0.7133       798
+
+
+--- tfidf_message_diff_lr ---
+Confusion: TP=104 FN=95 FP=123 TN=476
+              precision    recall  f1-score   support
+
+ Non-Bug-Fix     0.8336    0.7947    0.8137       599
+     Bug-Fix     0.4581    0.5226    0.4883       199
+
+    accuracy                         0.7268       798
+   macro avg     0.6459    0.6586    0.6510       798
+weighted avg     0.7400    0.7268    0.7325       798
+
+
+--- tfidf_message_diff_rf ---
+Confusion: TP=68 FN=131 FP=49 TN=550
+              precision    recall  f1-score   support
+
+ Non-Bug-Fix     0.8076    0.9182    0.8594       599
+     Bug-Fix     0.5812    0.3417    0.4304       199
+
+    accuracy                         0.7744       798
+   macro avg     0.6944    0.6300    0.6449       798
+weighted avg     0.7512    0.7744    0.7524       798
+
+
+--- tfidf_message_diff_xgb ---
+Confusion: TP=78 FN=121 FP=74 TN=525
+              precision    recall  f1-score   support
+
+ Non-Bug-Fix     0.8127    0.8765    0.8434       599
+     Bug-Fix     0.5132    0.3920    0.4444       199
+
+    accuracy                         0.7556       798
+   macro avg     0.6629    0.6342    0.6439       798
+weighted avg     0.7380    0.7556    0.7439       798
+
+
+--- hybrid_features_lr ---
+Confusion: TP=144 FN=55 FP=302 TN=297
+              precision    recall  f1-score   support
+
+ Non-Bug-Fix     0.8438    0.4958    0.6246       599
+     Bug-Fix     0.3229    0.7236    0.4465       199
+
+    accuracy                         0.5526       798
+   macro avg     0.5833    0.6097    0.5356       798
+weighted avg     0.7139    0.5526    0.5802       798
+
+
+--- hybrid_features_rf ---
+Confusion: TP=55 FN=144 FP=85 TN=514
+              precision    recall  f1-score   support
+
+ Non-Bug-Fix     0.7812    0.8581    0.8178       599
+     Bug-Fix     0.3929    0.2764    0.3245       199
+
+    accuracy                         0.7130       798
+   macro avg     0.5870    0.5672    0.5712       798
+weighted avg     0.6843    0.7130    0.6948       798
+
+
+--- hybrid_features_xgb ---
+Confusion: TP=73 FN=126 FP=127 TN=472
+              precision    recall  f1-score   support
+
+ Non-Bug-Fix     0.7893    0.7880    0.7886       599
+     Bug-Fix     0.3650    0.3668    0.3659       199
+
+    accuracy                         0.6830       798
+   macro avg     0.5771    0.5774    0.5773       798
+weighted avg     0.6835    0.6830    0.6832       798
+
+
+--- knn_retrieval ---
+Confusion: TP=75 FN=124 FP=81 TN=518
+              precision    recall  f1-score   support
+
+ Non-Bug-Fix     0.8069    0.8648    0.8348       599
+     Bug-Fix     0.4808    0.3769    0.4225       199
+
+    accuracy                         0.7431       798
+   macro avg     0.6438    0.6208    0.6287       798
+weighted avg     0.7255    0.7431    0.7320       798
+
+
+--- claude_message ---
+Confusion: TP=48 FN=37 FP=33 TN=217
+              precision    recall  f1-score   support
+
+ Non-Bug-Fix     0.8543    0.8680    0.8611       250
+     Bug-Fix     0.5926    0.5647    0.5783        85
+
+    accuracy                         0.7910       335
+   macro avg     0.7235    0.7164    0.7197       335
+weighted avg     0.7879    0.7910    0.7894       335
+
+
+--- claude_message_diff ---
+Confusion: TP=32 FN=8 FP=35 TN=85
+              precision    recall  f1-score   support
+
+ Non-Bug-Fix     0.9140    0.7083    0.7981       120
+     Bug-Fix     0.4776    0.8000    0.5981        40
+
+    accuracy                         0.7312       160
+   macro avg     0.6958    0.7542    0.6981       160
+weighted avg     0.8049    0.7312    0.7481       160
+
+
+--- gpt4o_message_diff ---
+Confusion: TP=28 FN=12 FP=21 TN=99
+              precision    recall  f1-score   support
+
+ Non-Bug-Fix     0.8919    0.8250    0.8571       120
+     Bug-Fix     0.5714    0.7000    0.6292        40
+
+    accuracy                         0.7937       160
+   macro avg     0.7317    0.7625    0.7432       160
+weighted avg     0.8118    0.7937    0.8002       160
+
+
+--- codellama_message_diff ---
+Confusion: TP=25 FN=15 FP=51 TN=68
+              precision    recall  f1-score   support
+
+ Non-Bug-Fix     0.8193    0.5714    0.6733       119
+     Bug-Fix     0.3289    0.6250    0.4310        40
+
+    accuracy                         0.5849       159
+   macro avg     0.5741    0.5982    0.5522       159
+weighted avg     0.6959    0.5849    0.6123       159

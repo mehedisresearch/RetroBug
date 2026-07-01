@@ -1,0 +1,58 @@
+\subsection{Baselines}
+\label{sec:baselines}
+
+\paragraph{Classical baselines (RQ1).}
+\label{sec:baselines:classical}
+We compare RetroBug against classical baselines under 5-fold
+stratified cross-validation on all 798 commits, using masked commit
+messages at test time to reduce trivial keyword leakage.
+The \textbf{keyword heuristic} labels a commit as Bug-Fix when the
+masked message contains fix-related terms (e.g., \emph{fix},
+\emph{bug}, \emph{patch})~\cite{tian2012identifying}.
+\textbf{TF-IDF} vectorises the masked message (up to 5{,}000 unigram
+and bigram features; $\mathrm{min\_df}=2$) and trains fold-specific
+\textbf{LR}, \textbf{RF} (200 trees), or \textbf{XGB} classifiers.
+\textbf{Hybrid features + LR} uses nine hand-crafted features (message
+length, keyword counts, and diff statistics) with standardized
+logistic regression.
+\textbf{$k$NN retrieval} transfers the label of the nearest training
+commit using the same \texttt{all-MiniLM-L6-v2} embedding model and
+cosine similarity as RetroBug, but without LLM reasoning.
+
+\paragraph{CCS baselines (RQ2).}
+\label{sec:baselines:ccs}
+For RQ2, we compare RetroBug against three zero-shot LLM baselines on
+fold~0 ($n=160$), all using the commit-classification prompt of
+Zeng~\textit{et al.}~\cite{zeng2025conventional} adapted to binary
+Bug-Fix vs.\ Non-Bug-Fix classification.
+Each baseline makes a single API call per commit with the masked
+message and full git diff---no knowledge-base search, tools, or
+multi-step reasoning---and returns a JSON label, confidence score, and
+brief reasoning.
+We evaluate \textbf{Claude Sonnet~4.5}, \textbf{GPT-4o}, and a locally
+hosted \textbf{CodeLlama-13b-Instruct} model as an open-weight
+comparison point.
+
+Table~\ref{tab:baseline-summary} summarizes both baseline families.
+
+\begin{table}[t]
+\centering
+\caption{Overview of baseline families and their inputs.}
+\label{tab:baseline-summary}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Family} & \textbf{Method(s)} & \textbf{Input} & \textbf{Eval.} \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{Classical baselines (RQ1)}} \\
+\quad Heuristic    & Keyword           & Masked message       & 5-fold \\
+\quad TF-IDF       & LR, RF, XGB       & Masked message       & 5-fold \\
+\quad Hand-crafted & LR                & Engineered features  & 5-fold \\
+\quad Retrieval    & $k$NN             & Embedding similarity & 5-fold \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{CCS baselines (RQ2)}} \\
+\quad Zero-shot LLM & Claude, GPT-4o, CodeLlama & Masked message + diff & Fold~0 \\
+\bottomrule
+\end{tabular}
+\end{table}

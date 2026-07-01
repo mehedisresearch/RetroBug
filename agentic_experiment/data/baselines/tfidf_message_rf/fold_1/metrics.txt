@@ -1,0 +1,26 @@
+============================================================
+  Baseline: tfidf_message_rf — Fold 1  (n=160)
+============================================================
+
+  Coverage   : 100.0%  (160 valid / 0 errors)
+
+  Confusion Matrix (rows=actual, cols=predicted):
+                    Pred Bug-Fix  Pred Non-Bug
+  Actual Bug-Fix          13            27
+  Actual Non-Bug          14           106
+
+  Precision : 0.4815
+  Recall    : 0.3250
+  F1        : 0.3881
+  MCC       : 0.2409
+  Accuracy  : 0.7438
+
+  Agent Efficiency:
+    Avg Steps/Commit   : 0.0
+    Avg Tool Calls     : 0.0
+    Avg Latency        : 0.1s
+    Avg Tokens/Commit  : 0
+    Total Input Tokens : 0
+    Total Output Tokens: 0
+    Total Tokens       : 0
+    Avg Confidence     : 69.6
