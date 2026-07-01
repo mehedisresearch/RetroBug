@@ -1,0 +1,39 @@
+==============================================================================
+  CBR MECHANISM LADDER — Fold 0
+==============================================================================
+
+Simple RAG: top-1 neighbor, single Claude turn, no tools, no loop.
+No tools: backward CBR + agent loop, analysis tools disabled.
+Full: backward CBR + agent loop + all tools.
+
+Condition                 BF F1    NB F1      Acc      MCC    Cov
+------------------------------------------------------------------------------
+Forward CBR              0.6234   0.8807   0.8187   0.5049   100%
+Backward CBR             0.6329   0.8797   0.8187   0.5127   100%
+RetroBug (no tools)      0.6190   0.8644   0.8000   0.4849   100%
+RetroBug (full)          0.7765   0.9191   0.8812   0.6982   100%
+
+Per-class detail:
+Condition              Class             Prec     Rec      F1
+------------------------------------------------------------------------------
+Forward CBR            Non-Bug-Fix     0.8699  0.8917  0.8807
+                       Bug-Fix         0.6486  0.6000  0.6234
+Backward CBR           Non-Bug-Fix     0.8760  0.8833  0.8797
+                       Bug-Fix         0.6410  0.6250  0.6329
+RetroBug (no tools)    Non-Bug-Fix     0.8793  0.8500  0.8644
+                       Bug-Fix         0.5909  0.6500  0.6190
+RetroBug (full)        Non-Bug-Fix     0.9391  0.9000  0.9191
+                       Bug-Fix         0.7333  0.8250  0.7765
+
+Delta (Backward CBR − Forward CBR):
+  BF F1: +0.0095
+  MCC:   +0.0078
+
+Delta (Full − Forward CBR):
+  BF F1: +0.1531
+  MCC:   +0.1933
+
+Delta (Full − No tools):
+  BF F1: +0.1575
+  MCC:   +0.2133
+

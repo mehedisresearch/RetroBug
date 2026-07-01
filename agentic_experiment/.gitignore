@@ -12,6 +12,8 @@ paper_tables/
 
 # Extra experiments / logs — not needed for RQ1–RQ3 replication
 data/model_comparison/
+# Forward CBR experiment — RQ2 (fold 0 precomputed; backward kept local)
+data/cbr_rag/backward/
 data/*_run.log
 data/fold_*/token_usage.log
 data/baselines/*.log

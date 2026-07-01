@@ -34,6 +34,7 @@ rsync -a \
   --exclude='run_ablation.py' \
   --exclude='summarize_ablation.py' \
   --exclude='paper_tables/' \
+  --exclude='data/cbr_rag/backward/' \
   "${ROOT}/agentic_experiment/" "${STAGE}/agentic_experiment/"
 
 # --- source datasets ---
@@ -51,8 +52,8 @@ cp "${ROOT}/README.md" "${STAGE}/"
 # --- manifest ---
 cat > "${STAGE}/MANIFEST.txt" <<EOF
 RetroBug replication package (${STAMP})
-Scope: RQ1 (classical baselines), RQ2 (LLM baselines), RQ3 (cross-fold stability)
-Excluded: ablation study code, data/ablation/, paper_tables/
+Scope: RQ1 (non-agentic baselines), RQ2 (Forward CBR vs RetroBug), RQ3 (cross-fold stability)
+Excluded: ablation study, data/ablation/, data/cbr_rag/backward/, paper_tables/
 
 Entry point: README.md
 

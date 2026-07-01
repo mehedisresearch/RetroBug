@@ -1,0 +1,26 @@
+============================================================
+  CBR RAG (forward) — Fold 0  (n=160)
+============================================================
+
+  Coverage   : 100.0%  (160 valid / 0 errors)
+
+  Confusion Matrix (rows=actual, cols=predicted):
+                    Pred Bug-Fix  Pred Non-Bug
+  Actual Bug-Fix          24            16
+  Actual Non-Bug          13           107
+
+  Precision : 0.6486
+  Recall    : 0.6000
+  F1        : 0.6234
+  MCC       : 0.5049
+  Accuracy  : 0.8187
+
+  Agent Efficiency:
+    Avg Steps/Commit   : 0.0
+    Avg Tool Calls     : 0.0
+    Avg Latency        : 7.7s
+    Avg Tokens/Commit  : 1561
+    Total Input Tokens : 206,865
+    Total Output Tokens: 42,912
+    Total Tokens       : 249,777
+    Avg Confidence     : 88.3

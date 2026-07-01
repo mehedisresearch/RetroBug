@@ -2,42 +2,27 @@
 
 Replication artifact for **RetroBug** — an agentic backward case-based reasoning (CBR) system for binary bug-fix commit classification (Bug-Fix vs. Non-Bug-Fix).
 
-This package contains experiment code, evaluation scripts, and precomputed results for RQ1–RQ3. All methods are evaluated under the same **5-fold stratified cross-validation** protocol on **798 commits**.
+This package contains experiment code, evaluation scripts, and precomputed results for **RQ1–RQ3**. All methods use the same **5-fold stratified cross-validation** protocol on **798 commits** (seed=42).
 
 ---
 
-## Table of Contents
+## Research Questions
 
-1. [Overview](#overview)
-2. [Repository Layout](#repository-layout)
-3. [Prerequisites](#prerequisites)
-4. [Installation](#installation)
-5. [Configuration](#configuration)
-6. [Data Preparation](#data-preparation)
-7. [Running the Experiments](#running-the-experiments)
-8. [Outputs and Results](#outputs-and-results)
-9. [Verifying Paper Numbers](#verifying-paper-numbers)
-10. [Verification Checklist](#verification-checklist)
-11. [Troubleshooting](#troubleshooting)
+**RQ1: How effective is RetroBug compared with non-agentic baselines for bug-fix commit classification?**
 
----
+We evaluate whether RetroBug improves bug-fix commit classification over heuristic, classical machine learning, and retrieval-based methods (keyword, TF-IDF, hybrid features, kNN retrieval). Evaluation uses full 5-fold CV (n=798).
 
-## Overview
+**RQ2: Does the RetroBug agentic pipeline improve classification over Forward Case-Based Reasoning (Forward CBR)?**
 
-| Component | Description |
-|-----------|-------------|
-| **RetroBug (ours)** | Multi-step agent with KB retrieval, backward CBR, and 6 analysis tools; uses Claude Sonnet 4.5 by default |
-| **Classical baselines** | Keyword heuristic, TF-IDF (LR/RF/XGB), hybrid features (LR/RF/XGB), kNN retrieval |
-| **LLM baselines** | Zero-shot Claude, GPT-4o, and CodeLlama-13b (masked message + git diff) |
-| **Evaluation** | Per-class P/R/F1, accuracy, MCC; 798 commits, 5 folds |
+We compare RetroBug with a **Forward CBR** baseline using the **same retrieval setting** (top-1 KB neighbor) and the **same language model** (Claude Sonnet), but with a single-turn prompt: *“Given this reference, classify the target.”* RetroBug adds backward CBR, analysis tools, and a multi-step agent loop. RQ2 is evaluated on **fold 0** (n=160); re-run or extend with `run_cbr_comparison.py`.
 
-**Research questions (replication scope):**
+**RQ3: How stable is RetroBug across cross-validation folds?**
 
-- **RQ1:** RetroBug vs. classical baselines (full 5-fold CV)
-- **RQ2:** RetroBug vs. zero-shot LLM baselines (fold 0; same test split)
-- **RQ3:** Cross-fold stability and per-class balance (RetroBug only)
+We evaluate whether RetroBug performs consistently across data splits and maintains balanced performance on both Bug-Fix and Non-Bug-Fix commits (5-fold per-class metrics).
 
-> **Note:** An ablation study is maintained separately and is **not included** in this package.
+> **Discussion (not an RQ):** Comparison with zero-shot LLM baselines (Claude, GPT-4o, CodeLlama) is reported in the Discussion section. Precomputed LLM baseline outputs for fold 0 remain in `data/baselines/` for verification.
+
+> **Note:** Ablation studies (`data/ablation/`) are maintained locally and are not part of this replication package.
 
 ---
 
@@ -45,42 +30,22 @@ This package contains experiment code, evaluation scripts, and precomputed resul
 
 ```
 RetroBug/
-├── README.md                    ← you are here
+├── README.md
 ├── scripts/package_replication.sh
-├── agentic_experiment/          ← experiment code + results
-│   ├── requirements.txt
-│   ├── .env.example             ← copy to .env
-│   ├── run_experiment.py        ← RetroBug agentic pipeline
-│   ├── run_baselines.py         ← all baselines
-│   ├── summarize_baselines.py   ← aggregate comparison report
-│   ├── agent.py, tools.py, knowledge_base.py, …
+├── agentic_experiment/
+│   ├── run_experiment.py           ← RetroBug (RQ1, RQ3)
+│   ├── run_baselines.py            ← non-agentic baselines (RQ1)
+│   ├── run_cbr_comparison.py       ← Forward / Backward CBR (RQ2)
+│   ├── summarize_cbr_comparison.py
+│   ├── cbr_rag/                    ← simple 1-neighbor RAG classifiers
 │   └── data/
-│       ├── merged_dataset.jsonl
-│       ├── cv_splits.json
-│       ├── fold_{0..4}/         ← RetroBug per-fold outputs
-│       ├── baselines/           ← baseline per-fold outputs
-│       └── cross_fold_summary.txt
-├── bugfix_pipeline/data/        ← source CSV datasets
-│   ├── dataset1_100fix_300nonfix.csv
-│   └── dataset2_100fix_300nonfix.csv
-└── claude_message_experiment/   ← shared prompt/parser for LLM baselines
-    ├── prompts.py
-    └── parse_response.py
+│       ├── fold_{0..4}/            ← RetroBug per-fold results
+│       ├── baselines/              ← RQ1 classical + discussion LLM baselines
+│       ├── cbr_rag/forward/        ← RQ2 Forward CBR (fold 0 bundled)
+│       └── cross_fold_summary.txt  ← RQ3
+├── bugfix_pipeline/data/           ← source CSV datasets
+└── claude_message_experiment/      ← shared LLM prompt/parser
 ```
-
----
-
-## Prerequisites
-
-| Requirement | Used for |
-|-------------|----------|
-| **Python 3.10+** | All scripts |
-| **Anthropic API key** | RetroBug agent + Claude baselines |
-| **OpenAI API key** | GPT-4o baseline only (optional) |
-| **NVIDIA GPU (~26 GB VRAM)** | CodeLlama-13b baseline only (optional) |
-| **Internet access** | API calls + downloading `all-MiniLM-L6-v2` embeddings on first run |
-
-RetroBug and classical baselines do **not** require a GPU.
 
 ---
 
@@ -89,128 +54,77 @@ RetroBug and classical baselines do **not** require a GPU.
 ```bash
 cd agentic_experiment
 python3 -m pip install -r requirements.txt
-cp .env.example .env
-# Edit .env with your API keys (see Configuration below)
+cp .env.example .env   # set ANTHROPIC_API_KEY
 ```
-
-All experiment commands below assume your working directory is `agentic_experiment/`.
-
----
-
-## Configuration
-
-Create `agentic_experiment/.env` from `.env.example`:
-
-| Variable | Required | Default | Purpose |
-|----------|----------|---------|---------|
-| `ANTHROPIC_API_KEY` | Yes (agent + Claude baselines) | — | Anthropic API authentication |
-| `CLAUDE_MODEL` | No | `claude-sonnet-4-5` | Model for RetroBug and Claude baselines |
-| `OPENAI_API_KEY` | GPT-4o baseline only | — | OpenAI API authentication |
-| `OPENAI_MODEL` | No | `gpt-4o` | GPT-4o baseline model |
-| `LLM_BACKEND` | No | `claude` | Agent backend: `claude` or `codellama` |
-| `CODELLAMA_PATH` | CodeLlama runs | — | Path to `CodeLlama-13b-Instruct-hf` |
-| `CUDA_VISIBLE_DEVICES` | CodeLlama runs | — | GPU device ID |
-
-Key hyperparameters are in `agentic_experiment/config.py` (5 CV folds, seed=42; max 12 agent steps; `all-MiniLM-L6-v2` embeddings).
-
----
-
-## Data Preparation
-
-Source CSVs must exist at `bugfix_pipeline/data/dataset{1,2}_100fix_300nonfix.csv`.
-
-```bash
-cd agentic_experiment
-python3 run_experiment.py --prepare-data
-```
-
-This writes `data/merged_dataset.jsonl` (798 commits) and `data/cv_splits.json`. Precomputed data and results are already bundled under `agentic_experiment/data/`.
 
 ---
 
 ## Running the Experiments
 
-### RetroBug (agentic pipeline)
+### RQ1 — RetroBug and non-agentic baselines
 
 ```bash
 cd agentic_experiment
-python3 run_experiment.py              # full 5-fold (resumable)
-python3 run_experiment.py --fold 0     # single fold
-python3 run_experiment.py --metrics-only   # recompute metrics only
+python3 run_experiment.py --metrics-only          # RetroBug 5-fold summary
+python3 run_baselines.py --baseline all_classical # classical + kNN
+python3 summarize_baselines.py
 ```
 
-### Classical baselines (no API)
+### RQ2 — Forward CBR vs RetroBug
 
 ```bash
-python3 run_baselines.py --baseline all_classical
-python3 run_baselines.py --baseline keyword --fold 0
+# Forward CBR on fold 0 (single-turn, top-1 neighbor, no tools)
+python3 run_cbr_comparison.py --fold 0 --mode forward
+
+# Compare with bundled / local results
+python3 summarize_cbr_comparison.py --fold 0
 ```
 
-### LLM baselines (fold 0 for RQ2)
-
-```bash
-python3 run_baselines.py --baseline claude_message_diff --fold 0
-python3 run_baselines.py --baseline gpt4o_message_diff --fold 0
-python3 run_baselines.py --baseline codellama_message_diff --fold 0
-```
-
-### Summarize and compare
+### RQ3 — Cross-fold stability
 
 ```bash
 python3 run_experiment.py --metrics-only   # → data/cross_fold_summary.txt
-python3 summarize_baselines.py             # → data/baselines/baselines_comparison.txt
 ```
 
 ---
 
-## Outputs and Results
+## Key Results
 
-| Method | BF F1 | Acc. | MCC | Scope |
-|--------|-------|------|-----|-------|
-| **RetroBug** | **0.778** | **0.871** | **0.703** | 5-fold, n=798 |
-| TF-IDF + LR (msg) | 0.500 | 0.732 | 0.319 | 5-fold, n=798 |
-| kNN retrieval | 0.423 | 0.743 | 0.264 | 5-fold, n=798 |
-| GPT-4o zero-shot | 0.629 | 0.794 | 0.493 | fold 0, n=160 |
-| Claude zero-shot | 0.598 | 0.731 | 0.446 | fold 0, n=160 |
-| CodeLlama-13b | 0.431 | 0.585 | 0.171 | fold 0, n=159* |
+### RQ1 — RetroBug vs non-agentic baselines (5-fold, n=798)
 
-\*One CodeLlama response was unparseable and excluded from metrics.
+| Method | BF F1 | Acc. | MCC |
+|--------|-------|------|-----|
+| **RetroBug** | **0.778** | **0.871** | **0.703** |
+| TF-IDF + LR (message) | 0.500 | 0.732 | 0.319 |
+| kNN retrieval | 0.423 | 0.743 | 0.264 |
 
-Per-fold outputs live under `agentic_experiment/data/fold_{0..4}/` and `agentic_experiment/data/baselines/<name>/fold_*/`.
+### RQ2 — RetroBug vs Forward CBR (fold 0, n=160)
+
+| Method | NB F1 | BF F1 | Acc. | MCC |
+|--------|-------|-------|------|-----|
+| Forward CBR | 0.881 | 0.623 | 0.819 | 0.505 |
+| **RetroBug (full)** | **0.919** | **0.777** | **0.881** | **0.698** |
+
+Same KB (top-1), same model; Forward CBR = one LLM call, no tools, no agent loop.
+
+### RQ3 — Cross-fold stability (RetroBug)
+
+Bug-Fix F1 = **0.778 ± 0.027**; Non-Bug-Fix F1 = **0.909 ± 0.015**; MCC = **0.705 ± 0.035** across 5 folds. See `data/cross_fold_summary.txt`.
 
 ---
 
-## Verifying Paper Numbers
+## Verification
 
 ```bash
 cd agentic_experiment
 python3 run_experiment.py --metrics-only
 python3 summarize_baselines.py
+python3 summarize_cbr_comparison.py --fold 0
 ```
 
-Expected RetroBug pooled BF F1 ≈ 0.778. See `data/cross_fold_summary.txt` and `data/baselines/baselines_comparison.txt`.
-
----
-
-## Verification Checklist
-
-- [ ] `python3 run_experiment.py --prepare-data` produces 798 commits in `merged_dataset.jsonl`
-- [ ] `python3 run_experiment.py --metrics-only` reports RetroBug BF F1 ≈ **0.778 ± 0.027**
-- [ ] `python3 summarize_baselines.py` shows TF-IDF + LR BF F1 ≈ **0.500**
-- [ ] `data/fold_0/metrics.txt` shows RetroBug BF F1 ≈ **0.776**, MCC ≈ **0.698**
-- [ ] `data/baselines/gpt4o_message_diff/fold_0/metrics.txt` shows BF F1 ≈ **0.629**
-
----
-
-## Troubleshooting
-
-**Missing source CSVs** — ensure `bugfix_pipeline/data/dataset{1,2}_100fix_300nonfix.csv` exist.
-
-**`ModuleNotFoundError: claude_message_experiment`** — the sibling `claude_message_experiment/` directory must be present.
-
-**API authentication errors** — check `agentic_experiment/.env` for valid keys.
-
-**Interrupted runs** — both pipelines default to `--resume`. Use `--no-resume` to overwrite a fold.
+- [ ] RetroBug pooled BF F1 ≈ **0.778** (`data/cross_fold_summary.txt`)
+- [ ] Forward CBR fold 0 BF F1 ≈ **0.623** (`data/cbr_rag/forward/fold_0/metrics.txt`)
+- [ ] RetroBug fold 0 BF F1 ≈ **0.777** (`data/fold_0/metrics.txt`)
 
 ---
 
